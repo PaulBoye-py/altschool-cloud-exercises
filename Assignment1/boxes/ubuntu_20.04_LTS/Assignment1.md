@@ -1,12 +1,12 @@
 # AltSchool Cloud Engineering Assignment 1
 
-## Task: Setup Ubuntu 20.04 LTS on your local machine using Vagrant.
+## Task: Setup Ubuntu 20.04 LTS on your local machine using Vagrant
 
 Vagrant is a tool for building and managing virtual machine environments in a single workflow. With an easy-to-use workflow and focus on automation, Vagrant lowers development environment setup time, increases production parity, and makes the "works on my machine" excuse a relic of the past.
 
 **Step 1** : Download and install [Vagrant](https://www.vagrantup.com/ "Vagrant") on your local machine.
 
-**Step 2** : On your terminal, create a folder where you will be running        Vagrant on your local machine. 
+**Step 2** : On your terminal, create a folder where you will be running        Vagrant on your local machine.
 
     mkdir ubuntu20.04_LTS
     cd ubuntu20.04_LTS
@@ -25,7 +25,7 @@ Once you press `enter`, you should see the following prompt:
     vagrantup.com for more information on using Vagrant.
 
 To see the contents of the Vagrantfile, run the command below:
-    
+
     cat Vagrantfile
 
 The Vagrantfile contains a bunch of configuration code that vagrant uses to know what kind of machine it should spin up, and how it should set it up.
@@ -33,9 +33,9 @@ The Vagrantfile contains a bunch of configuration code that vagrant uses to know
 **Step 4** : Customize your Vagrantfile as necessary with private_network set to dhcp.
 
 To do this, open the Vagrantfile in notepad(for windows users), or any other text editor.
-Under the part that talks about  creating a private network, which allows host-only access to the machine using a specific IP, uncomment the ruby code written below it, remove `ip: "aaa.bbb.xx.yy"`, and add  `type: "dhcp"`. 
+Under the part that talks about  creating a private network, which allows host-only access to the machine using a specific IP, uncomment the ruby code written below it, remove `ip: "aaa.bbb.xx.yy"`, and add  `type: "dhcp"`.
 
-The final result should look like this: 
+The final result should look like this:
 
     #Create a private network, which allows host-only access to the machine
     #using a specific IP.
@@ -67,7 +67,6 @@ To resolve this, end the previous machine, or ppen the Vagrantfile, and run the 
             end
         end
 
-
 **Step 6** : To access the machine, you will need to login to the machine by running the code:
 
     vagrant ssh
@@ -76,12 +75,11 @@ This gives a prompt that welcomes you to the OS. It also shows some sysytem info
 
 **Step 7** : To view the interface configuration(`ifconfig`), you will need to install net-tools by running the command below:
 
-    $ sudo apt install net-tools
-
+    sudo apt install net-tools
 
 Once net-tools has been installed, run the command below to view the network interface configuration.
 
-    $ ifconfig
+    ifconfig
 
 The interface configuration looks like this:
 
@@ -113,6 +111,6 @@ The interface configuration looks like this:
             TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
 ![iconfig]
-(https://drive.google.com/file/d/1adHUE9USirYaWMyv5hT9Z6sfBeeGBFHC/view?usp=sharing)
+(<https://drive.google.com/file/d/1adHUE9USirYaWMyv5hT9Z6sfBeeGBFHC/view?usp=sharing>)
 
 **For more information**, read the [Vagrant documentation.](https://www.vagrantup.com/docs "Vagrant documentation")
