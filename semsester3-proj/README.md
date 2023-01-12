@@ -78,7 +78,7 @@ A subnet is a range of IP addresses in your VPC. You can attach AWS resources, s
 
 ## Create EC2 Instances
 
-Instances can be provisioned manually on the AWS Console, and can also be automated using Ansible. You can check this [repo](https://github.com/PaulBoye-py/altschool-cloud-exercises/tree/main/dec_proj/AWS_Ansible) to see how to provision the EC2 instances using Ansible. I will write a blog explaining the playbook, so ensure you subscribe to my posts, but for the sake of this project, we will provosion them manually.
+Instances can be provisioned manually on the AWS Console, and can also be automated using Ansible. You can check this [repo](https://github.com/PaulBoye-py/altschool-cloud-exercises/tree/main/dec_proj/AWS_Ansible) to see how to provision the EC2 instances using Ansible. I will write a blog explaining the playbook, so ensure you subscribe to my posts, but for the sake of this project, we will provision them manually.
 
 1. Type in `EC2` in the search bar.
 
@@ -128,3 +128,51 @@ Instances can be provisioned manually on the AWS Console, and can also be automa
         ![Private Network](./images/Screenshot%202023-01-10%20at%2022.58.09.png)
 
         ![Disable Public IP](./images/Screenshot%202023-01-10%20at%2022.58.47.png)
+
+8. Still under the network settings, we will create a new security group. A security group is a set of rules that control the traffic in and out of your instance. 
+
+    ![security group](./images/Screenshot%202023-01-10%20at%2023.18.55.png)
+
+    **NB**: Make sure you use a name and a description that you can remeber.
+
+9. Leave everything else as they are, and proceed to `Launch instance`. You should see something like this in the next page.
+
+![instance launch](./images/Screenshot%202023-01-10%20at%2023.22.32.png)
+
+---
+
+Welldone, you have just created 2 instances, set a key pair to SSH into the instances, routed them to the VPC we earlier, and created a new Security Group to control the traffic in and out of the instances. 
+
+---
+---
+
+Now we will go ahead to create a different instance. This instance will be called a **Bastion Host**. A *bastion host* is a server that will allow us access a private network from an external network. Remember, when we created our instances, we used private subnets, which is inaccessible to the public. In order to setup nginx on the webservers using ansible, we would need to SSH into these instances using our bastion host.
+
+Let's dive into setting up the bastion host.
+
+## Setting up the **Bastion Host**
+
+1. Navigate the AWS console to `Launch Instance`.
+
+2. Create an instance with the following configuration:
+
+    ![Bastion 1](./images/Screenshot%202023-01-10%20at%2023.23.43.png)
+
+    * I named the instance `Bastion`, and selected the same Amazon Machine Image which is `Ubuntu`, with the default configurations.
+
+    * I aslo created a new keypair called bastion, and it has   been downloaded on my local machine.
+
+3. Now, head over to the VPC section and select the same VPC we created and used for the first instances we created.
+
+    ![Bastion 2](./images/Screenshot%202023-01-10%20at%2023.24.08.png)
+
+    * Select any of the **public** subnetworks
+
+    ![Bastion 3](./images/Screenshot%202023-01-10%20at%2023.24.17.png)
+
+    * Now you will see that the `Auto Assign public IP` field will be automatically set 
+    to `Enable`. That's great. Leave it like that.
+
+    * 
+
+    
