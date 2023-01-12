@@ -173,6 +173,42 @@ Let's dive into setting up the bastion host.
     * Now you will see that the `Auto Assign public IP` field will be automatically set 
     to `Enable`. That's great. Leave it like that.
 
-    * 
+4. In the Firewall (security groups) section, we will use the security group we earlier created. Therefore click on `Select existing security group` option, and select the one you previously created.
 
-    
+    ![Bastion 4](./images/Screenshot%202023-01-10%20at%2023.24.47.png)
+
+5. Click on `Launch instance`. This will provision the bastion host instance. If you click on the instance, you will see the instance summary for the bastion host. Notice that this instance has a `Public IPv4 address`, and the other 2 servers we created only have `Private IPv4 addresses`. 
+
+    ![Bastion 5](./images/Screenshot%202023-01-10%20at%2023.25.30.png)
+
+---
+
+Now we have set up 3 instances: 2 webservers and 1 bastion host to access the webservers. Firstly, we need to SSH into the bastion server on your local machine. I have setup a virtual Ubuntu server on my local machine. You can go through this [tutorial](https://medium.com/@paul.adeboye/how-to-setup-ubuntu-20-04-lts-on-a-windows-machine-using-vagrant-89a236f13ae) to understand how to do this.
+
+---
+
+
+## SSH into the Bastion host server
+
+* To SSH into the Bastion host, we will need to have a copy of the Keypair file that we downloaded in our virtual machine. A very easy way to do this is to just create a file with the same name as that of the keypair, and copy the contents of the keypair into that file.
+
+* Let me show you what I mean. On my pc, the Keypair file is called `bastion.pem`. What I will simply do is to create a file named `bastion.pem` in my virtual machine, and copy the contents of the original `bastion.pem` into it. 
+
+* ![Bastion pem file](./images/Screenshot%202023-01-12%20at%2022.26.51.png)
+
+* After copying the contents of the file, I saved it, and now I have a copy of the `bastion.pem` file on my VM. 
+
+* To SSH into the bastion host, use this code format:
+
+        ssh -i <"pem file"> ubuntu@ip address
+
+    * To make things easier, AWS provides us with the code for this. On the page of the instance, look around for a `Connect` button, and click on it. Once you click on it, it takes you to a page that shows you the various ways to connect to an instance. Click on the `SSH client` option, and it will provide you with the code. Copy that code and paste it on your VM's terminal, then click on enter. 
+
+    * The terminal will ask you if you want to continue connection, type in `yes`, and that will be all. You should see something similar to this. 
+
+        ![bastion ssh](./images/Screenshot%202023-01-10%20at%2023.31.51.png)
+        
+        * You can see that we are logged in as `ubuntu@ip address`, which means we have successfully logged in the bastion host
+
+---
+
