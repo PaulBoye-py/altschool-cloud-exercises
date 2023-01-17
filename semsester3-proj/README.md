@@ -224,3 +224,150 @@ Now we have set up 3 instances: 2 webservers and 1 bastion host to access the we
 To SSH into the private servers from the Bastion Host, we will perform the same process we did above.
 
 1. Copy the keypairs of the 2 servers into their respective files with their respective file names.
+
+    ![Server Keypair](./images/Screenshot%202023-01-10%20at%2023.33.05.png)
+
+2. SSH into the server(s) using this command template:
+
+    ```shell
+     ssh -i <"pem file"> ubuntu@ip address
+    ```
+
+    Here is a picture of mine:
+
+    ![SSH Server](./images/Screenshot%202023-01-10%20at%2023.33.51.png)
+
+    ![SSH Sever2](./images/Screenshot%202023-01-10%20at%2023.34.36.png)
+
+Do this step for the 2 AWS instances you created. Once done, we can then move to configuring Nginx on the private EC2 Servers.
+
+---
+
+## Configuring Nginx on the Private EC2 servers using Ansible
+
+As we know, Ansible is a configurarion management tool that can be applied to configure servers, databases, etc to the required specifications, and at scale.
+
+We will communciate to our private servers, configure and install the necessary packages needed to deploy Nginx and a page displaying the server's IP private IP Address, all done using Ansible.
+
+Let's get into it!!
+
+1. Login back into your Bastion host server and run the following command to update and upgrade the package libraries and repos:
+
+```
+    sudo apt update && sudo apt upgrade -y
+```
+
+![sudo apt update](./images/Screenshot%202023-01-10%20at%2023.36.01.png)
+
+
+2. Once updated, we can proceed to install ansible on the Bastion host with the command:
+
+    ```shell
+        sudo apt install ansible -y
+    ```
+
+![sudo apt install ansible](./images/Screenshot%202023-01-10%20at%2023.37.03.png)
+
+
+3. To successfully install Nginx on our servers, we need to create 3 files, namely: 
+
+* Host inventory file: contains the IP addresses of the targer servers;
+* ansible.cfg file: We can define our default configurations here;
+* ansible playbook file(yml file): this is where we write the actual ansible commands to be executed on the servers.
+
+### Ansible configuration (ansible.cfg) file
+
+* Create the ansible.cfg file with the following command:
+
+```shell
+sudo vi ansible.cfg
+```
+
+Write the following commands in the text editor:
+```shell
+[defaults]
+inventory = inventory
+private_key_file = ~/myproj.pem
+```
+![ansible.cfg](./images/Screenshot%202023-01-10%20at%2023.39.54.png)
+
+**NB:** The `private_key_file` is the file that contains the keypair for your webservers.
+
+
+### Host inventory file
+
+* Create the host inventory file
+
+```shell
+sudo vi inventory
+```
+
+![inventory](./images/Screenshot%202023-01-10%20at%2023.40.30.png)
+
+* Write the following commands in the text editor:
+
+```shell
+<Private IP Address 1>
+<Private IP Address 2>
+```
+
+Copy and paste the respective private IP addresses of the servers.
+
+### Ansible Playbook file
+
+This is the `.yml` file that will contain the commands to be executed on the server. I named mine `main.yml`.
+
+```shell
+sudo vi main.yml
+```
+
+Copy the following code to the file:
+
+```shell
+---
+
+- hosts: all
+  become: yes
+  tasks:
+
+  - name: update & upgrade server
+    apt:
+      update_cache: yes
+      upgrade: yes
+
+  - name: install nginx
+    apt:
+      name: nginx
+      state: latest
+
+  - name: add hostname to server
+    tags: print
+    shell: echo "<h1>This is my server $(hostname -f)</h1>" > /var/www/html/index.nginx-debian.html
+
+  - name: restart nginx
+    tags: restart
+    service:
+      name: nginx
+      state: restarted
+      enabled: yes
+```
+
+![main.yml](./images/Screenshot%202023-01-10%20at%2023.42.54.png)
+
+But before we run the playbook, we need to ensure that ansible can communicate with our servers. Run the ansible ping code to check:
+
+```shell
+ansible all -m ping -v
+```
+
+A successful ping should return a message like this:
+
+![ansible ping](./images/Screenshot%202023-01-10%20at%2023.45.47.png)
+
+It looks good now, so let's execute the main.yml file with the command:
+
+```shell
+ansible-playbook -i inventory main.yml
+```
+
+![ansible playbook](./images/Screenshot%202023-01-09%20at%2019.21.17.png)
