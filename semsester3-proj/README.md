@@ -12,6 +12,13 @@
 
 * Work on building a personal portfolio and CV (Check out resumeworded.com).
 
+# Screenshots 
+
+![Screenshot1](./images/Screenshot%202023-01-09%20at%2019.58.21.png)
+![Screenshot2](./images/Screenshot%202023-01-09%20at%2019.58.29.png)
+
+
+
 **Task 1**
 
 Set up 2 EC2 instances on AWS(use the free tier instances.
@@ -212,3 +219,8 @@ Now we have set up 3 instances: 2 webservers and 1 bastion host to access the we
 
 ---
 
+## SSH from Bastion Host to the Private Servers
+
+To SSH into the private servers from the Bastion Host, we will perform the same process we did above.
+
+1. Copy the keypairs of the 2 servers into their respective files with their respective file names.
