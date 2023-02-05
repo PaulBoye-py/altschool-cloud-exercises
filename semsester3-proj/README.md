@@ -223,6 +223,7 @@ Now we have set up 3 instances: 2 webservers and 1 bastion host to access the we
 
 To SSH into the private servers from the Bastion Host, we will perform the same process we did above.
 
+<<<<<<< HEAD
 1. Copy the keypairs of the 2 servers into their respective files with their respective file names.
 
     ![Server Keypair](./images/Screenshot%202023-01-10%20at%2023.33.05.png)
@@ -371,3 +372,6 @@ ansible-playbook -i inventory main.yml
 ```
 
 ![ansible playbook](./images/Screenshot%202023-01-09%20at%2019.21.17.png)
+=======
+1. Copy the keypairs of the 2 servers into their respective files with their respective file names.
+>>>>>>> master
